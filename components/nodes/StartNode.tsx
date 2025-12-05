@@ -1,9 +1,12 @@
 'use client';
 import { PairType } from "@/types/types";
+import { useReactFlow } from "@xyflow/react";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { v4 as uid } from 'uuid';
 
-export default function StartNode() {
+export default function StartNode({id}: {id: string}) {
+
+    const { setNodes } = useReactFlow()
 
     const [editMode, setEditMode] = useState(false);
     const [title, setTitle] = useState('')
@@ -17,6 +20,18 @@ export default function StartNode() {
         /* Disable the edit mode when click outside the node */
         function handleOutsideClick(e: MouseEvent) {
             if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+                // syncing the data with parent
+                const data = { 
+                    title, 
+                    metadata: metadata.map((item) => (item.key && item.value) ? item : null).filter(item => item !== null)
+                }
+                setNodes((nodeSnapshot) => {
+                    return nodeSnapshot.map((n) => {
+                        return n.id === id ? {...n, data: {...n.data, ...data}} : n
+                    })
+                })
+
+                // disable edit mode
                 setEditMode(false);
             }
         }
@@ -24,7 +39,7 @@ export default function StartNode() {
         document.addEventListener('click', handleOutsideClick)
 
         return () => { document.removeEventListener('click', handleOutsideClick)}
-    }, [])
+    }, [id, metadata, title, setNodes])
 
     const updateMetadata = (id: string, field: 'key' | 'value', value: string) => {
          setMetadata(metadataSnapshot => metadataSnapshot.map((item) => item.id === id ? {...item, [field]: value} : item));

@@ -10,6 +10,7 @@ export const hrNodes = [
         type: 'start',
         label: 'Start',
         position: {x: 10, y: 10},
+        data: {}
     },
     // {
     //     id: 'n2',

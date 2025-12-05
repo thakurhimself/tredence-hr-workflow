@@ -19,6 +19,8 @@ export default function Home() {
     (change) => setEdges((edgesSnapshot) => applyEdgeChanges(change, edgesSnapshot))
   ,[])
 
+  // console.log("nodes:", nodes);
+
   return (
       <main className="w-screen h-screen flex">
         <section className="w-[200px] border-r-1 border-r-[#ddd]">
