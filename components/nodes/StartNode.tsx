@@ -35,7 +35,7 @@ export default function StartNode() {
     }
     
     return (
-        <section className="border border-[#ddd] rounded-md p-3 min-w-[300px]" 
+        <section className="border border-[#ddd] rounded-md p-3 min-w-[300px] bg-white shadow-lg" 
         ref={containerRef}
         onClick={() => setEditMode(true)
         }>
