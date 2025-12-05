@@ -24,9 +24,23 @@ export default function SideMenu() {
             > 
                 Task Node 
             </p>
-            <p className="ml-7 mb-2" draggable> Approval Node </p>
-            <p className="ml-7 mb-2" draggable> Automated Node </p>
-            <p className="ml-7 mb-2" draggable> End Node </p>
+            <p className="ml-7 mb-2" draggable
+            onDragStart={(event: React.DragEvent<HTMLParagraphElement>) => onDragStart(event, 'approval')}
+            > 
+                Approval Node 
+            </p>
+            <p 
+            className="ml-7 mb-2" draggable
+            onDragStart={(event: React.DragEvent<HTMLParagraphElement>) => onDragStart(event, 'automated')}
+            > 
+                Automated Node 
+            </p>
+
+            <p className="ml-7 mb-2" draggable
+            onDragStart={(event: React.DragEvent<HTMLParagraphElement>) => onDragStart(event, 'end')}
+            > 
+                End Node 
+            </p>
         </section>
     )
 }
