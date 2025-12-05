@@ -1,6 +1,8 @@
 'use client';
+import { ActionType } from "@/types/types";
 import { useReactFlow } from "@xyflow/react";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { v4 as uid } from "uuid";
 
 export default function AutomatedStepNode({id}: {id: string}) {
 
@@ -8,29 +10,27 @@ export default function AutomatedStepNode({id}: {id: string}) {
 
     const [editMode, setEditMode] = useState(false);
     const [title, setTitle] = useState<string>('')
+    const [actionId, setActionId] = useState<string>('')
+    const [params, setParams] = useState<{id: string, key: string, value: string}[]>([])
 
     // actions state
-    const [actions, setActions] = useState<
-        {
-            id: string,
-            label: string,
-            params: string[]
-        }[]
-    >([])
+    const [actions, setActions] = useState<ActionType[]>([])
 
 
     const parentRef = useRef<HTMLDivElement>(null)
+
+    console.log("actionID, params", actionId, params)
 
     useEffect(() => {
         // routine to fetch actions
         async function fetchActions() {
             try {
-                const response = await fetch('/api/autmations');
+                const response = await fetch('/api/automations');
                 if (!response.ok) {
                     throw new Error("Internal error occurred: couldn't fetch the actions")
                 }
                 const result = await response.json();
-                setActions(result);
+                setActions(result.actions);
             } catch (error) {
                 console.log("error", error);
             }
@@ -66,16 +66,9 @@ export default function AutomatedStepNode({id}: {id: string}) {
         return () => { document.removeEventListener('click', handleOutsideClick)}
     }, [id, setNodes, actions])
 
-    // const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    //     e.preventDefault();
-    //     e.stopPropagation();
-    //     setAutomatedStep(prevSnapshot => {
-    //         return {
-    //             ...prevSnapshot,
-    //             [e.target.name]: e.target.value
-    //         }
-    //     })
-    // }
+    const changeParams = (id: string, value: string) => {
+        return setParams(paramsSnapshot => paramsSnapshot.map((param) => param.id === id ? {...param, value: value} : param))
+    }
 
     const removeNode = () => {
         return setNodes((nodeSnapshot) => nodeSnapshot.filter((n) => n.id !== id))
@@ -101,33 +94,59 @@ export default function AutomatedStepNode({id}: {id: string}) {
                     <input type="text" 
                     name="title"
                     placeholder="Title" 
-                    className="border border-[#999] p-2 w-full"
+                    className="w-full mb-3 p-2 border border-[#999]"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     onFocus={(e) => e.stopPropagation()}
                     />
 
                     {/* choose action */}
-                    <label>
-                        <span>Choose Action</span>
-                        <select onChange={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                        }}>
-                            <option value=''>Choose action</option>
+                    <select 
+                    onChange={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setActionId(e.target.value)
+
+                        const params = actions.filter(item => item.id === e.target.value)[0].params.map(item => ({id: uid(), key: item, value: ''}));
+                        setParams(params);
+                    }}
+                    className="w-full p-2 border border-[#999] mb-3"
+                    >
+                        <option value=''>Choose action</option>
+                        {
+                            actions.map(item => {
+                                return (
+                                    <option key={item.id} value={item.id}>
+                                        {item.label}
+                                    </option>
+                                )
+                            })
+                        }
+                    </select>
+
+                    {/* set params values */}
+                    {
+                        (params.length > 0) &&
+                        <>
+                            <p className="font-semibold mb-2">Action Parameters</p>
                             {
-                                actions.map(item => {
+                                params.map((item) => {
                                     return (
-                                        <option key={item.id} value={item.id}>
-                                            {item.label}
-                                        </option>
+                                        <section key={item.id} className="flex items-center justify-between">
+                                            <span className="capitalize">{item.key}</span>
+                                            <input 
+                                            name="value" 
+                                            onChange={() => changeParams(item.id, item.value)}
+                                            className="border border-[#ddd] outline-none"
+                                            />
+                                        </section>
                                     )
                                 })
                             }
-                        </select>
-                    </label>
+                          
+                        </>
 
-                    {/* set params values */}
+                    }
                 </>
                 :
                 <>
@@ -135,18 +154,27 @@ export default function AutomatedStepNode({id}: {id: string}) {
                         {title ? title : 'Automated step node'}
                     </p>
                     {
-                        // automatedStep.approverRole &&
-                        // <section className="flex justify-between items-center">
-                        //     <p>Approver role</p>
-                        //     <p>{automatedStep.approverRole}</p>
-                        // </section>
+                        actionId &&
+                        <section className="flex justify-between items-center">
+                            <p>Chosen Action</p>
+                            <p className="capitalize">{actions.filter(item => item.id === actionId)[0].label}</p>
+                        </section>
                     }
                     {
-                        // automatedStep.autoApproveThreshold &&
-                        // <section className="flex justify-between items-center">
-                        //     <p>Auto-approve threshold</p>
-                        //     <p>{automatedStep.autoApproveThreshold}</p>
-                        // </section>
+                        (params.length > 0) &&
+                        <>
+                            {
+                                params.map((item) => {
+                                    return (
+                                        <section key={item.id} className="flex items-center gap-2">
+                                            {/* <input name="key" value={item.key} onChange={() => changeParams(item.id, 'key', item.key)}/> */}
+                                            <span className="capitalize">{item.key}</span>
+                                            <span>{item.value}</span>
+                                        </section>
+                                    )
+                                })
+                            }
+                        </>
                     }
                     
                 </>

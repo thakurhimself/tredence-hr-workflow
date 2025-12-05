@@ -2,7 +2,7 @@
 import { useReactFlow } from "@xyflow/react";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 
-export default function AutomatedStepNode({id}: {id: string}) {
+export default function ApprovalNode({id}: {id: string}) {
 
     const { setNodes } = useReactFlow()
 

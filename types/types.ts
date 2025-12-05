@@ -5,9 +5,8 @@ export interface PairType {
     value: string
 }
 
-// export interface NodeType {
-//     id: string,
-//     label: string,
-//     type?: string,
-//     position: { x: number, y: number},
-// }
+export interface ActionType {
+    id: string,
+    label: string,
+    params: string[],
+}

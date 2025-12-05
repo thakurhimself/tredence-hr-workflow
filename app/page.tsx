@@ -8,6 +8,8 @@ import { v4 as uid} from 'uuid'
 import '@xyflow/react/dist/style.css';
 import SideMenu from "@/components/SideMenu";
 import Portal from "@/components/Portal";
+import Panel from "@/components/Panel";
+import StartNodeEditForm from "@/components/StartNodeEditForm";
 
 export default function Home() {
   const reactFlowWrapper = useRef<HTMLElement>(null)
@@ -54,13 +56,11 @@ export default function Home() {
     }
     console.log("")
     if (nodes.length < 1 && type !== 'start') {
-      console.log("inside start check")
       setActionStatus({type: 'error', message: 'Start node must be first'})
       return;
     }
 
     if (nodes.length > 0 && nodes[0].type !== 'start') {
-      console.log("inside start check")
       setActionStatus({type: 'error', message: 'Start node must be first'})
       return;
     }
@@ -69,8 +69,8 @@ export default function Home() {
 
   }, [nodes])
 
-  console.log("nodes", nodes);
-  console.log("error", actionStatus);
+  // console.log("nodes", nodes);
+  // console.log("error", actionStatus);
 
   return (
       <main className="w-screen h-screen flex">
@@ -87,6 +87,12 @@ export default function Home() {
               </button>
             </section>
           </Portal>
+        }
+
+        {
+          <Panel>
+            <StartNodeEditForm />
+          </Panel>
         }
 
         <SideMenu />
