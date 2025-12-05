@@ -2,12 +2,14 @@
 
 import { hrNodeEdges, hrNodes, nodeTypes } from "@/flows/hr-flow";
 import { applyEdgeChanges, applyNodeChanges, Background, Controls, ReactFlow } from "@xyflow/react";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useRef } from "react";
 import { Node, Edge } from "@xyflow/react";
+import { v4 as uid} from 'uuid'
 import '@xyflow/react/dist/style.css';
+import SideMenu from "@/components/SideMenu";
 
 export default function Home() {
-
+  const reactFlowWrapper = useRef<HTMLElement>(null)
   const [nodes, setNodes] = useState<Node[]>(hrNodes);
   const [edges, setEdges] = useState<Edge[]>(hrNodeEdges);
 
@@ -19,27 +21,61 @@ export default function Home() {
     (change) => setEdges((edgesSnapshot) => applyEdgeChanges(change, edgesSnapshot))
   ,[])
 
-  // console.log("nodes:", nodes);
+
+  const onDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  }, [])
+
+  const onDrop = useCallback((event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    const type = event.dataTransfer.getData('application/reactflow');
+    if (!type) {
+      return;
+    }
+
+    const rect = reactFlowWrapper.current?.getBoundingClientRect()
+
+    const pos = {
+      x: event.clientX - (rect ? rect.left : 0),
+      y: event.clientY - (rect ? rect.y : 0)
+    }
+
+    const id = uid();
+
+    const newNode = {
+      id,
+      type,
+      position: pos,
+      data: {}
+    }
+
+    setNodes(nodes => nodes.concat(newNode));
+
+    setNodes(nodes => {
+      return nodes.map(n => ({
+        ...n,
+        selected: n.id === id
+      }))
+    })
+
+  }, [])
+
+  console.log("nodes", nodes);
 
   return (
       <main className="w-screen h-screen flex">
-        <section className="w-[200px] border-r-1 border-r-[#ddd]">
-          <h1 className="font-bold text-lg text-red-900 my-2 ml-5">HR Workflow</h1>
-          <hr className="mb-2 text-[#ddd]"/>
-          <p className="font-semibold text-[#666] ml-5 mb-2">Nodes</p>
-          <p className="ml-7 mb-2" draggable> Start Node </p>
-          <p className="ml-7 mb-2" draggable> Task Node </p>
-          <p className="ml-7 mb-2" draggable> Approval Node </p>
-          <p className="ml-7 mb-2" draggable> Automated Node </p>
-          <p className="ml-7 mb-2" draggable> End Node </p>
-        </section>
-        <section className="col-span-10 col-start-3 col-end-14 w-full h-full">
+        <SideMenu />
+        <section 
+        ref={reactFlowWrapper}
+        className="col-span-10 col-start-3 col-end-14 w-full h-full">
           <ReactFlow
           nodes={nodes}
           edges={edges}
           nodeTypes={nodeTypes}
           onNodesChange={onNodeChanges}
           onEdgesChange={onEdgeChanges}
+          onDragOver={onDragOver}
+          onDrop={onDrop}
           >
             <Controls />
             <Background />

@@ -14,12 +14,12 @@ export default function StartNode({id}: {id: string}) {
         [{id: uid(), key: '',value: ''}]
     )
 
-    const containerRef = useRef<HTMLElement>(null)
+    const parentRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         /* Disable the edit mode when click outside the node */
         function handleOutsideClick(e: MouseEvent) {
-            if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+            if (parentRef.current && !parentRef.current.contains(e.target as Node)) {
                 // syncing the data with parent
                 const data = { 
                     title, 
@@ -50,8 +50,8 @@ export default function StartNode({id}: {id: string}) {
     }
     
     return (
-        <section className="border border-[#ddd] rounded-md p-3 min-w-[300px] bg-white shadow-lg" 
-        ref={containerRef}
+        <div className="border border-[#ddd] rounded-md p-3 min-w-[300px] bg-white shadow-lg" 
+        ref={parentRef}
         onClick={() => setEditMode(true)
         }>
             {
@@ -134,6 +134,6 @@ export default function StartNode({id}: {id: string}) {
                     }
                 </>
             }
-        </section>
+        </div>
     )
 }
