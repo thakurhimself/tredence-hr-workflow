@@ -1,4 +1,4 @@
-import StartNodeEditForm from "@/components/StartNodeEditForm";
+import StartNodeEditForm from "@/components/editNodeForms/StartNodeEditForm";
 
 
 export function nodeSelector(type: string) {

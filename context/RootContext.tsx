@@ -18,6 +18,7 @@ export const RootDispatch = createContext<Dispatch<ActionType> | null>(null);
 
 export function RootContextProvider({children}: {children: ReactNode}) {
     const [rootState, dispatch] = useReducer(rootReducer, intialContext)
+    
     return (
         <RootContext value={rootState}>
             <RootDispatch value={dispatch}>

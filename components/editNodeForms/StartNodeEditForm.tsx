@@ -1,29 +1,34 @@
 'use client';
-import { useRootDispatch } from "@/context/RootContext";
+import { useWorkflowDispatch, useWorkflowState } from "@/context/WorkflowContext";
 import { PairType } from "@/types/types";
 import { X } from "lucide-react";
-// import { useReactFlow } from "@xyflow/react";
 import { useState } from "react";
 import { v4 as uid } from 'uuid';
 
 export default function StartNodeEditForm() {
+    const state = useWorkflowState()
+    const dispatch = useWorkflowDispatch()
 
-    const dispatch = useRootDispatch()
+    const { id } = state.selectedNode
 
-    // const flow = useReactFlow()
-    const [title, setTitle] = useState('')
-    const [metadata, setMetadata] = useState<PairType[]>([])
+    const initTitle = state.nodeRecord[state.selectedNode.id]?.['title'] || "";
+    const initMetaData = state.nodeRecord[id]?.pair || [];
+
+    const [title, setTitle] = useState(initTitle)
+    const [metadata, setMetadata] = useState<PairType[]>(initMetaData)
 
     const updateMetadata = (id: string, field: 'key' | 'value', value: string) => {
         setMetadata(metadataSnapshot => metadataSnapshot.map((item) => item.id === id ? {...item, [field]: value} : item));
     }
+
+    console.log("state", state)
 
     return (
         <section className="w-full">
             <section className="flex justify-end">
                 <button 
                 className="cursor-pointer"
-                onClick={() => dispatch({type: 'resetEdit'})}>
+                onClick={() => dispatch({type: 'UNSELECT_NODE'})}>
                     <X />
                 </button>
             </section>
@@ -70,7 +75,19 @@ export default function StartNodeEditForm() {
             </button>
 
             <button
-            className="block w-fit mx-auto p-2 bg-blue-900 mt-2 text-white"
+            className="block w-fit mx-auto p-2 bg-blue-700 hover:bg-blue-800 mt-2 text-white"
+            onClick={() => {
+                dispatch({
+                    type: 'UPDATE_NODE_RECORD',
+                    load: {
+                        id: state.selectedNode.id,
+                        data: {
+                            title,
+                            pair: metadata
+                        }
+                    }
+                })
+            }}
             >
                 Save
             </button>

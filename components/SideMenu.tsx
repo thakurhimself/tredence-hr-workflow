@@ -1,3 +1,4 @@
+import { Workflow } from "lucide-react"
 
 export default function SideMenu() {
 
@@ -5,42 +6,28 @@ export default function SideMenu() {
         event.dataTransfer?.setData('application/reactflow', nodeType)
     }
 
+    const nodes = ['Start', 'Task', 'Approval', 'Automated', 'End']
+
     return (
-        <section className="w-[200px] border-r-1 border-r-[#ddd]">
+        <section className="w-[250px] border-r-1 border-r-[#ddd]">
             <h1 className="font-bold text-lg text-red-900 my-2 ml-5">HR Workflow</h1>
             <hr className="mb-2 text-[#ddd]"/>
             <p className="font-semibold text-[#666] ml-5 mb-2">Nodes</p>
-            <p 
-            className="ml-7 mb-2" 
-            draggable
-            onDragStart={(event: React.DragEvent<HTMLParagraphElement>) => onDragStart(event, 'start')}
-            > 
-                Start Node 
-            </p>
-            <p 
-            className="ml-7 mb-2" 
-            draggable
-            onDragStart={(event: React.DragEvent<HTMLParagraphElement>) => onDragStart(event, 'task')}
-            > 
-                Task Node 
-            </p>
-            <p className="ml-7 mb-2" draggable
-            onDragStart={(event: React.DragEvent<HTMLParagraphElement>) => onDragStart(event, 'approval')}
-            > 
-                Approval Node 
-            </p>
-            <p 
-            className="ml-7 mb-2" draggable
-            onDragStart={(event: React.DragEvent<HTMLParagraphElement>) => onDragStart(event, 'automated')}
-            > 
-                Automated Node 
-            </p>
-
-            <p className="ml-7 mb-2" draggable
-            onDragStart={(event: React.DragEvent<HTMLParagraphElement>) => onDragStart(event, 'end')}
-            > 
-                End Node 
-            </p>
+            {
+                nodes.map((item, index) => {
+                    return (
+                        <p 
+                        key={item+index}
+                        className="ml-5 mb-2 flex item-center gap-4" 
+                        draggable
+                        onDragStart={(event: React.DragEvent<HTMLParagraphElement>) => onDragStart(event, item.toLowerCase())}
+                        > 
+                            <Workflow />
+                            <span>{item} Node</span>
+                        </p>
+                    )
+                })
+            }
         </section>
     )
 }

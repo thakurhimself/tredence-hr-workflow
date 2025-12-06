@@ -10,3 +10,8 @@ export interface ActionType {
     label: string,
     params: string[],
 }
+
+export interface StartNodeType {
+    title: string,
+    pair: PairType[]
+}

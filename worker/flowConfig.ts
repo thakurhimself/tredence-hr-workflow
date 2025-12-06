@@ -1,3 +1,4 @@
+import { CustomEdge } from "@/components/edges/CustomEdge"
 import ApprovalNode from "@/components/nodes/ApprovalNode"
 import AutomatedStepNode from "@/components/nodes/AutomatedStepNode"
 import StartNode from "@/components/nodes/StartNode"
@@ -10,7 +11,6 @@ export const nodeTypes = {
     automated: AutomatedStepNode
 }
 
-export const hrNodes = []
-
-export const hrNodeEdges = []
-
+export const edgeTypes = {
+    customEdge: CustomEdge
+}

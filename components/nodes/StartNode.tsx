@@ -1,11 +1,11 @@
 'use client';
-import { useRootDispatch } from "@/context/RootContext";
+import { useWorkflowDispatch } from "@/context/WorkflowContext";
 import { Position, Handle, useReactFlow } from "@xyflow/react";
 import { X } from "lucide-react";
 
 export default function StartNode({id, type}: {id: string, type: string}) {
 
-    const dispatch =useRootDispatch()
+    const dispatch = useWorkflowDispatch()
     const { setNodes } = useReactFlow()
 
     const removeNode = () => {
@@ -15,7 +15,7 @@ export default function StartNode({id, type}: {id: string, type: string}) {
     return (
         <div 
         className="border border-[#ddd] rounded-md p-3 min-w-[300px] bg-white shadow-lg" 
-        onClick={() => dispatch({type: 'edit', load: { id, type}})}
+        onClick={() => dispatch({type: 'SELECT_NODE', load: { id, type}})}
         >
 
             <Handle type="source" position={Position.Right} id={'outgoing'}/>
