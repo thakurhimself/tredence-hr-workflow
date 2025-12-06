@@ -32,3 +32,16 @@ export interface ApprovalNodeType {
     approvalRole: string,
     autoApproveThreshold: number
 }
+
+export interface AutomatedNodeType {
+    type: 'automated',
+    title: string,
+    actionId: string,
+    params: PairType[]
+}
+
+export interface EndNodeType {
+    type: 'end',
+    title: string,
+    summary: boolean
+}

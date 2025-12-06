@@ -12,6 +12,10 @@ export default function ApprovalNode({id, type}: {id: string, type: string}) {
     const node = state.nodeRecord[id] || {};
 
     const removeNode = () => {
+        dispatch({
+            type: 'DELETE_NODE',
+            id
+        })
         return setNodes((nodeSnapshot) => nodeSnapshot.filter((n) => n.id !== id))
     }
 
@@ -30,6 +34,7 @@ export default function ApprovalNode({id, type}: {id: string, type: string}) {
                     <X />
                 </button>
             </section>
+            
             <p className="flex items-center gap-2 font-bold text-xl w-fit">
                 <span>
                     <SquareChevronRight />

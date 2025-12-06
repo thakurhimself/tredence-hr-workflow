@@ -1,4 +1,6 @@
 import ApprovalNodeEditForm from "@/components/editNodeForms/ApprovalNodeEditForm";
+import AutomatedNodeEditForm from "@/components/editNodeForms/AutomatedNodeEditForm";
+import EndNodeEditForm from "@/components/editNodeForms/EndNodeEditForm";
 import StartNodeEditForm from "@/components/editNodeForms/StartNodeEditForm";
 import TaskNodeEditForm from "@/components/editNodeForms/TaskNodeEditForm";
 
@@ -11,6 +13,10 @@ export function nodeSelector(type: string) {
             return <TaskNodeEditForm />
         case 'approval':
             return <ApprovalNodeEditForm />
+        case 'automated':
+            return <AutomatedNodeEditForm />
+        case 'end':
+            return <EndNodeEditForm />
         default:
             return null
     }

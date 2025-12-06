@@ -1,7 +1,7 @@
 'use client';
 import { useWorkflowDispatch, useWorkflowState } from "@/context/WorkflowContext";
 import { PairType } from "@/types/types";
-import { X } from "lucide-react";
+import { X, PencilRuler } from "lucide-react";
 import { useState } from "react";
 import { v4 as uid } from 'uuid';
 
@@ -11,8 +11,8 @@ export default function StartNodeEditForm() {
 
     const { id } = state.selectedNode
 
-    const initTitle = state.nodeRecord[state.selectedNode.id]?.['title'] || "";
-    const initMetaData = state.nodeRecord[id].type === 'start' ? state.nodeRecord[id].pair : [];
+    const initTitle = state.nodeRecord[id]?.type === 'start' ? state.nodeRecord[id]?.['title'] : "";
+    const initMetaData = state.nodeRecord[id]?.type === 'start' ? state.nodeRecord[id].pair : [];
 
     const [title, setTitle] = useState(initTitle)
     const [metadata, setMetadata] = useState<PairType[]>(initMetaData)
@@ -30,7 +30,12 @@ export default function StartNodeEditForm() {
                     <X />
                 </button>
             </section>
-            <p className="text-center text-xl font-[900]">Start Node</p>
+
+            <p className="text-xl text-center font-[900] mb-3 flex items-center gap-2 justify-center">
+                <PencilRuler />
+                <span>Task Node</span>
+            </p>
+
             <p className="text-lg font-semibold mb-2">Add Title</p>
             <input type="text" 
             placeholder="Enter title" 
@@ -68,12 +73,12 @@ export default function StartNodeEditForm() {
 
             <button 
             onClick={() => setMetadata(prev => [...prev, {id: uid(), key: '', value: ''}])}
-            className="block w-full p-2 bg-blue-900 mt-2 text-white">
-                Add New Pair
+            className="block w-full p-2 bg-blue-900 hover:bg-blue-500 cursor-pointer mt-2 text-white">
+                Add Metadata
             </button>
 
             <button
-            className="block w-fit mx-auto p-2 bg-blue-700 hover:bg-blue-800 mt-2 text-white"
+            className="w-full p-2 cursor-pointer bg-blue-700 hover:bg-blue-500 mt-2 text-white"
             onClick={() => {
                 dispatch({
                     type: 'UPDATE_NODE_RECORD',

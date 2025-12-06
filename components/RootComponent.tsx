@@ -23,7 +23,7 @@ import { useWorkflowState } from "@/context/WorkflowContext";
 import { edgeTypes, nodeTypes } from "@/worker/flowConfig";
 
 export default function RootComponent() {
-    const workflowState = useWorkflowState();
+    const state = useWorkflowState();
     const reactFlowWrapper = useRef<HTMLElement>(null)
     const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([])
@@ -61,7 +61,6 @@ export default function RootComponent() {
             position: pos,
             data: {}
         }
-        console.log("")
         if (nodes.length < 1 && type !== 'start') {
             setActionStatus({type: 'error', message: 'Start node must be first'})
             return;
@@ -95,9 +94,9 @@ export default function RootComponent() {
 
             <ReactFlowProvider>
                 {
-                    (workflowState.selectedNode.id) &&
+                    (state.selectedNode.id) &&
                     <Panel>
-                        {nodeSelector(workflowState.selectedNode.type)}
+                        {nodeSelector(state.selectedNode.type)}
                     </Panel>
                 }
 

@@ -2,7 +2,7 @@
 
 'use client';
 
-import { ApprovalNodeType, StartNodeType, TaskNodeType } from "@/types/types";
+import { ApprovalNodeType, AutomatedNodeType, EndNodeType, StartNodeType, TaskNodeType } from "@/types/types";
 import { createContext, useContext, ReactNode, Dispatch, useReducer } from "react";
 
 export interface SelectNodeType {
@@ -13,13 +13,14 @@ export interface SelectNodeType {
 export interface WorkflowStateType {
     selectedNode: SelectNodeType
     nodeRecord: {
-        [key: string]: StartNodeType | TaskNodeType | ApprovalNodeType
+        [key: string]: StartNodeType | TaskNodeType | ApprovalNodeType | AutomatedNodeType | EndNodeType
     }
 }
 
 export type WorkflowActionType = { type: "SELECT_NODE"; load: SelectNodeType }
     | { type: "UNSELECT_NODE" }
-    | { type: "UPDATE_NODE_RECORD", load: {id: string, data: StartNodeType | TaskNodeType | ApprovalNodeType} }
+    | { type: "UPDATE_NODE_RECORD", load: {id: string, data: StartNodeType | TaskNodeType | ApprovalNodeType | AutomatedNodeType | EndNodeType} }
+    | {type: 'DELETE_NODE', id: string}
     | { type: "RESET" };
 
 
@@ -58,6 +59,14 @@ const workflowReducer = (state: WorkflowStateType, action: WorkflowActionType) =
                         ...data,
                     }
                 }
+            }
+        case 'DELETE_NODE':
+            const updRecord = {...state.nodeRecord}
+            delete updRecord[action.id]
+            return {
+                ...state,   // root level workflow state
+                nodeRecord: updRecord,
+                selectedNode: {...state.selectedNode, id: '', type: ''}
             }
         default: 
             return state

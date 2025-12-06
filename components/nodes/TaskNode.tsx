@@ -11,9 +11,10 @@ export default function TaskNode({id, type}: {id: string, type: string}) {
     const node = state.nodeRecord[id] || {};
     console.log("node", node);
     const removeNode = () => {
-        // dispatch({
-
-        // })
+        dispatch({
+            type: 'DELETE_NODE',
+            id
+        })
         return setNodes((nodeSnapshot) => nodeSnapshot.filter((n) => n.id !== id))
     }
 
