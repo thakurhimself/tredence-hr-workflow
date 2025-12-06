@@ -2,7 +2,7 @@
 
 'use client';
 
-import { StartNodeType } from "@/types/types";
+import { ApprovalNodeType, StartNodeType, TaskNodeType } from "@/types/types";
 import { createContext, useContext, ReactNode, Dispatch, useReducer } from "react";
 
 export interface SelectNodeType {
@@ -13,13 +13,13 @@ export interface SelectNodeType {
 export interface WorkflowStateType {
     selectedNode: SelectNodeType
     nodeRecord: {
-        [key: string]: StartNodeType
+        [key: string]: StartNodeType | TaskNodeType | ApprovalNodeType
     }
 }
 
 export type WorkflowActionType = { type: "SELECT_NODE"; load: SelectNodeType }
     | { type: "UNSELECT_NODE" }
-    | { type: "UPDATE_NODE_RECORD", load: {id: string, data: StartNodeType} }
+    | { type: "UPDATE_NODE_RECORD", load: {id: string, data: StartNodeType | TaskNodeType | ApprovalNodeType} }
     | { type: "RESET" };
 
 

@@ -12,7 +12,7 @@ export default function StartNodeEditForm() {
     const { id } = state.selectedNode
 
     const initTitle = state.nodeRecord[state.selectedNode.id]?.['title'] || "";
-    const initMetaData = state.nodeRecord[id]?.pair || [];
+    const initMetaData = state.nodeRecord[id].type === 'start' ? state.nodeRecord[id].pair : [];
 
     const [title, setTitle] = useState(initTitle)
     const [metadata, setMetadata] = useState<PairType[]>(initMetaData)
@@ -20,8 +20,6 @@ export default function StartNodeEditForm() {
     const updateMetadata = (id: string, field: 'key' | 'value', value: string) => {
         setMetadata(metadataSnapshot => metadataSnapshot.map((item) => item.id === id ? {...item, [field]: value} : item));
     }
-
-    console.log("state", state)
 
     return (
         <section className="w-full">
@@ -32,7 +30,7 @@ export default function StartNodeEditForm() {
                     <X />
                 </button>
             </section>
-            <p className="text-center text-xl font-[900]">Start Node Edit</p>
+            <p className="text-center text-xl font-[900]">Start Node</p>
             <p className="text-lg font-semibold mb-2">Add Title</p>
             <input type="text" 
             placeholder="Enter title" 
@@ -82,6 +80,7 @@ export default function StartNodeEditForm() {
                     load: {
                         id: state.selectedNode.id,
                         data: {
+                            type: 'start',
                             title,
                             pair: metadata
                         }

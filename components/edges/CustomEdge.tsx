@@ -7,10 +7,10 @@ export function CustomEdge(
 ) {
     const { deleteElements } = useReactFlow();
     const [edgePath, labelX, labelY] = getStraightPath({
-    sourceX,
-    sourceY,
-    targetX,
-    targetY,
+        sourceX,
+        sourceY,
+        targetX,
+        targetY,
     });
 
     return (
