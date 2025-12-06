@@ -1,19 +1,32 @@
 'use client';
+import { useRootDispatch } from "@/context/RootContext";
 import { PairType } from "@/types/types";
+import { X } from "lucide-react";
+// import { useReactFlow } from "@xyflow/react";
 import { useState } from "react";
 import { v4 as uid } from 'uuid';
 
 export default function StartNodeEditForm() {
 
+    const dispatch = useRootDispatch()
+
+    // const flow = useReactFlow()
     const [title, setTitle] = useState('')
     const [metadata, setMetadata] = useState<PairType[]>([])
 
     const updateMetadata = (id: string, field: 'key' | 'value', value: string) => {
-         setMetadata(metadataSnapshot => metadataSnapshot.map((item) => item.id === id ? {...item, [field]: value} : item));
+        setMetadata(metadataSnapshot => metadataSnapshot.map((item) => item.id === id ? {...item, [field]: value} : item));
     }
 
     return (
         <section className="w-full">
+            <section className="flex justify-end">
+                <button 
+                className="cursor-pointer"
+                onClick={() => dispatch({type: 'resetEdit'})}>
+                    <X />
+                </button>
+            </section>
             <p className="text-center text-xl font-[900]">Start Node Edit</p>
             <p className="text-lg font-semibold mb-2">Add Title</p>
             <input type="text" 
@@ -36,20 +49,14 @@ export default function StartNodeEditForm() {
                             value={item.key} 
                             className="border p-2 w-full"
                             placeholder="Add new key"
-                            onChange={(e) => {
-                                updateMetadata(item.id, 'key', e.target.value)
-                                // console.log("change handler", e.target.value)
-                            }}
+                            onChange={(e) => updateMetadata(item.id, 'key', e.target.value)}
                             />
 
                             <input type="text" 
                             value={item.value} 
                             className="border p-2 w-full"
                             placeholder="Add new value"
-                            onChange={(e) => {
-                                updateMetadata(item.id, 'value', e.target.value)
-                                // console.log("changeHandler", e.target.value)
-                            }}
+                            onChange={(e) => updateMetadata(item.id, 'value', e.target.value)}
                             />
                         </section>
                     )
