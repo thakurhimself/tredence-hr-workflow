@@ -55,7 +55,7 @@ export default function ApprovalNode({id, type}: {id: string, type: string}) {
                 && 
                 <section>
                     <p className="font-bold">
-                        Approval Role
+                        Approver Role
                     </p>
                     <p className="ml-2">
                         {node.approvalRole}

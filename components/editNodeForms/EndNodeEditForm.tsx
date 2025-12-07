@@ -15,20 +15,18 @@ export default function EndNodeEditForm() {
 
     return (
         <section className="w-full">
-            <section className="flex justify-end">
-                <button 
-                className="cursor-pointer"
-                onClick={() => dispatch({type: 'UNSELECT_NODE'})}>
-                    <X />
-                </button>
-            </section>
+            <button 
+            className="cursor-pointer"
+            onClick={() => dispatch({type: 'UNSELECT_NODE'})}>
+                <X />
+            </button>
             
             <p className="text-xl text-center font-[900] mb-3 flex items-center gap-2 justify-center">
                 <PencilRuler />
                 <span>End Node</span>
             </p>
 
-            <p className="text-lg font-semibold mb-2">Add Title</p>
+            <p className="text-lg font-semibold mb-2">Title</p>
             <input type="text" 
             placeholder="Enter title" 
             className="border border-[#999] p-2 w-full mb-5"
@@ -49,7 +47,7 @@ export default function EndNodeEditForm() {
             </label>
 
             <button
-            className="block w-fit mx-auto p-2 bg-blue-700 hover:bg-blue-800 mt-2 text-white"
+            className="w-full p-2 bg-blue-700 hover:bg-blue-500 cursor-pointer mt-2 text-white"
             onClick={() => {
                 dispatch({
                     type: 'UPDATE_NODE_RECORD',
@@ -62,6 +60,7 @@ export default function EndNodeEditForm() {
                         }
                     }
                 })
+                dispatch({type: 'UNSELECT_NODE'})
             }}
             >
                 Save

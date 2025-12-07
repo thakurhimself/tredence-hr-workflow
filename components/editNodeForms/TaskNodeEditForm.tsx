@@ -49,20 +49,15 @@ export default function TaskNodeEditForm() {
 
     return (
         <section className="w-full">
-            {/* title input */}
-            <div 
-            className="flex justify-end cursor-pointer"
-            
+            <button
+            className="cursor-pointer"
+            onClick={() => dispatch({
+                type: 'UNSELECT_NODE'
+            })}
             >
-                <button
-                className="cursor-pointer"
-                onClick={() => dispatch({
-                    type: 'UNSELECT_NODE'
-                })}
-                >
-                    <X />
-                </button>
-            </div>
+                <X />
+            </button>
+
             <p className="text-xl text-center font-[900] mb-3 flex items-center gap-2 justify-center">
                 <PencilRuler />
                 <span>Task Node</span>
@@ -142,7 +137,7 @@ export default function TaskNodeEditForm() {
             </button>
 
             <button
-            className="w-full p-2 bg-blue-700 hover:bg-blue-500 mt-2 text-white"
+            className="w-full p-2 bg-blue-700 hover:bg-blue-500 mt-2 text-white cursor-pointer"
             onClick={() => {
                 dispatch({
                     type: 'UPDATE_NODE_RECORD',
@@ -157,6 +152,10 @@ export default function TaskNodeEditForm() {
                             pair: pair
                         }
                     }
+                })
+
+                dispatch({
+                    type: 'UNSELECT_NODE'
                 })
             }}
             >

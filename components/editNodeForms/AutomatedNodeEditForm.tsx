@@ -47,14 +47,12 @@ export default function AutomatedNodeEditForm() {
 
     return (
         <div className="w-full">
-            <div className="flex justify-end cursor-pointer">
-                <button
-                className="cursor-pointer"
-                onClick={() => dispatch({type: 'UNSELECT_NODE'})}
-                >
-                    <X />
-                </button>
-            </div>
+            <button
+            className="cursor-pointer"
+            onClick={() => dispatch({type: 'UNSELECT_NODE'})}
+            >
+                <X />
+            </button>
             
             <p className="text-xl text-center font-[900] mb-3 flex items-center gap-2 justify-center">
                 <PencilRuler />
@@ -137,6 +135,7 @@ export default function AutomatedNodeEditForm() {
                         }
                     }
                 })
+                dispatch({type: 'UNSELECT_NODE'})
             }}
             >
                 Save

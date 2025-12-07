@@ -31,18 +31,16 @@ export default function ApprovalNodeEditForm() {
 
     return (
         <div className="w-full">
-            <div className="flex justify-end cursor-pointer">
-                <button
-                className="cursor-pointer"
-                onClick={() => dispatch({type: 'UNSELECT_NODE'})}
-                >
-                    <X />
-                </button>
-            </div>
+            <button
+            className="cursor-pointer"
+            onClick={() => dispatch({type: 'UNSELECT_NODE'})}
+            >
+                <X />
+            </button>
 
             <p className="text-xl text-center font-[900] mb-3 flex items-center gap-2 justify-center">
                 <PencilRuler />
-                <span>Task Node</span>
+                <span>Approval Node</span>
             </p>
 
             {/* title */}
@@ -58,7 +56,7 @@ export default function ApprovalNodeEditForm() {
             />
 
             {/* Approval Role */}
-            <p className="text-lg font-semibold mb-1">Title</p>
+            <p className="text-lg font-semibold mb-1">Approver Role</p>
             <input 
             type="text" 
             name="approverRole"
@@ -80,7 +78,7 @@ export default function ApprovalNodeEditForm() {
             />
 
             <button
-            className="w-full p-2 bg-blue-700 hover:bg-blue-500 mt-2 text-white"
+            className="w-full p-2 bg-blue-700 hover:bg-blue-500 mt-2 text-white cursor-pointer"
             onClick={() => {
                 dispatch({
                     type: 'UPDATE_NODE_RECORD',
@@ -94,6 +92,8 @@ export default function ApprovalNodeEditForm() {
                         }
                     }
                 })
+
+                dispatch({type: 'UNSELECT_NODE'})
             }}
             >
                 Save

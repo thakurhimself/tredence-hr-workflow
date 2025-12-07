@@ -23,20 +23,18 @@ export default function StartNodeEditForm() {
 
     return (
         <section className="w-full">
-            <section className="flex justify-end">
-                <button 
-                className="cursor-pointer"
-                onClick={() => dispatch({type: 'UNSELECT_NODE'})}>
-                    <X />
-                </button>
-            </section>
+            <button 
+            className="cursor-pointer"
+            onClick={() => dispatch({type: 'UNSELECT_NODE'})}>
+                <X />
+            </button>
 
             <p className="text-xl text-center font-[900] mb-3 flex items-center gap-2 justify-center">
                 <PencilRuler />
-                <span>Task Node</span>
+                <span>Start Node</span>
             </p>
 
-            <p className="text-lg font-semibold mb-2">Add Title</p>
+            <p className="text-lg font-semibold mb-2">Title</p>
             <input type="text" 
             placeholder="Enter title" 
             className="border border-[#999] p-2 w-full"
@@ -46,7 +44,7 @@ export default function StartNodeEditForm() {
             />
 
             {/* optional add metadata */}
-            <p className="text-lg font-semibold my-2">Add Metadata</p>
+            <p className="text-lg font-semibold my-2">Metadata</p>
             {
                 metadata.map((item) => {
                     return (
@@ -92,6 +90,8 @@ export default function StartNodeEditForm() {
                         }
                     }
                 })
+
+                dispatch({type: 'UNSELECT_NODE'})
             }}
             >
                 Save
