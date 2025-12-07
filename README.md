@@ -72,4 +72,60 @@ The API endpoints are defined to serve the data and action needs of the App.
 
 ## Design Decisions
 
+1.  State for the node selection for editing is globally managed to manage it across the components.
 
+2.  Node form fields are globally stored in the key-value pair where key is the node's id and value is the entries of the node 
+    form fields. This allows simple and scalable way to store node form fields for different nodes or different instances of same
+    node type.
+
+3.  There are separate nodes and nodes' edit form component separating the concern of the displaying and interacting with the 
+    node's form fields.
+
+4.  Custom nodes have pair of incoming handle, for incoming edges, and outgoing handle for the outgoing edges. The start and end 
+    node have only one corresponding outgoing and incoming handle for edges.
+
+5.  Edges and nodes have delete button for the deletion of the edges and nodes.
+
+
+## What I have completed vs What I would have added with more time.
+
+### I have completed the following things in the assessement:
+
+Functional Requirements
+
+1. Workflow Canvas (React flow)
+    * Node Types: Start Node, Task Node, Approval Node, Automated Step Node, and End Node.
+    * Supported Canvas Actions: 
+        * Drag nodes from a sidebaron to the canvas
+        * Connect nodes with edges
+        * Select a node to edit it
+        * Delete nodes/edges
+        * Auto-validate basic constraint: start node must be the first.
+
+2. Node Editing/ Cofiguration Forms.
+    * Editable node form panel for each node type.
+    * Node edit forms for Start Node, Task Node, Approval Node, Automated Step Node, and End Node. Each form has required fields as mentioned in the assessment.
+
+3. Mock API Layer
+    * GET /automations
+    * POST /simulate
+
+4. Worflow Testing/ Sandbox Panel
+    * A small modal for the purpose
+    * Workflow graph serialization
+    * Call to /simulte API
+    * Display of step by step of execution log
+    * Structure validation: cycle detecton, execution order determination
+
+5. Bonus
+    * Export workflow as json
+    * zoom controls
+
+
+
+### What I would have added with more time
+Given the scope of the assessment, I would have added following things with more time:
+
+1. Refactor the some more code to strictly enforce DRY.
+2. Would add functionality to check missing connections.
+3. Implement bonus features.
