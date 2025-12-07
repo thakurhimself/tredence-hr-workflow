@@ -21,15 +21,20 @@ import Panel from "@/components/Panel";
 import { nodeSelector } from "@/worker/nodeSelector";
 import { useWorkflowState } from "@/context/WorkflowContext";
 import { edgeTypes, nodeTypes } from "@/worker/flowConfig";
+import { Play } from "lucide-react";
+import SubmitWorkflowPanel from "./SubmitWorkflowPanel";
 
 export default function RootComponent() {
     const state = useWorkflowState();
     const reactFlowWrapper = useRef<HTMLElement>(null)
     const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([])
-    const [actionStatus, setActionStatus] = useState<{type: 'error' | null, message: string}>(
+
+    const [actionStatus, setActionStatus] = useState<{type: 'error' | 'submit-workflow' | null, message?: string}>(
         {type: null, message: ''}
     )
+
+    // const [subWorkflow, setSubmitWorkflow] = useState<boolean>(false);
 
     const onConnect = useCallback(
         (params: Edge | Connection) => setEdges((eds) => addEdge({...params, type:'customEdge'}, eds)
@@ -72,8 +77,9 @@ export default function RootComponent() {
         }
 
         setNodes(nodes => nodes.concat(newNode));
-
     }
+
+    
 
     return (
         <main className="w-screen h-screen flex">
@@ -92,32 +98,61 @@ export default function RootComponent() {
                 </Portal>
             }
 
+            {
+                (state.selectedNode.id) &&
+                <Panel>
+                    {nodeSelector(state.selectedNode.type)}
+                </Panel>
+            }
+
+         
+
             <ReactFlowProvider>
                 {
-                    (state.selectedNode.id) &&
-                    <Panel>
-                        {nodeSelector(state.selectedNode.type)}
-                    </Panel>
+                    actionStatus.type === 'submit-workflow' &&
+                    <Portal>
+                        <SubmitWorkflowPanel onCloseModal={() => setActionStatus({type: null})} />
+                    </Portal>
                 }
-
                 <SideMenu />
-                <section 
-                ref={reactFlowWrapper}
-                className="col-span-10 col-start-3 col-end-14 w-full h-full">
-                    <ReactFlow
-                    nodes={nodes}
-                    edges={edges}
-                    nodeTypes={nodeTypes}
-                    edgeTypes={edgeTypes}
-                    onNodesChange={onNodesChange}
-                    onEdgesChange={onEdgesChange}
-                    onDragOver={onDragOver}
-                    onDrop={onDrop}
-                    onConnect={onConnect}
-                    >
-                        <Controls />
-                        <Background />
-                    </ReactFlow>
+                <section className="w-full h-full flex flex-col">
+                    {/* Top header */}
+                    <section className="flex justify-around items-center border-b-1 border-b-[#aaa] p-2">
+                        <section>
+
+                        </section>
+                        <section>
+                            <p className="font-semibold text-red-900">Workflow</p>
+                        </section>
+                        <section>
+                            <button 
+                            className="cursor-pointer"
+                            onClick={() => setActionStatus({type: 'submit-workflow'})}
+                            >
+                                <Play size={20} />
+                            </button>
+                        </section>
+                    </section>
+
+                    {/* Canvas */}
+                    <section 
+                    ref={reactFlowWrapper}
+                    className="w-full flex-1">
+                        <ReactFlow
+                        nodes={nodes}
+                        edges={edges}
+                        nodeTypes={nodeTypes}
+                        edgeTypes={edgeTypes}
+                        onNodesChange={onNodesChange}
+                        onEdgesChange={onEdgesChange}
+                        onDragOver={onDragOver}
+                        onDrop={onDrop}
+                        onConnect={onConnect}
+                        >
+                            <Controls />
+                            <Background />
+                        </ReactFlow>
+                    </section>
                 </section>
             </ReactFlowProvider>
         </main>

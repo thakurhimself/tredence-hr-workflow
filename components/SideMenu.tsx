@@ -9,7 +9,7 @@ export default function SideMenu() {
     const nodes = ['Start', 'Task', 'Approval', 'Automated', 'End']
 
     return (
-        <section className="w-[250px] border-r-1 border-r-[#ddd]">
+        <section className="w-[250px] h-full border-r-1 border-r-[#ddd]">
             <h1 className="font-bold text-lg text-red-900 my-2 ml-5">HR Workflow</h1>
             <hr className="mb-2 text-[#ddd]"/>
             <p className="font-semibold text-[#666] ml-5 mb-2">Nodes</p>
