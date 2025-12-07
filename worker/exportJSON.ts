@@ -1,12 +1,14 @@
-import { ApprovalNodeType, AutomatedNodeType, EndNodeType, StartNodeType, TaskNodeType } from "@/types/types";
-import { Node, Edge } from "@xyflow/react";
+import type { Node, Edge } from "@xyflow/react";
+import type { StartNodeType, TaskNodeType, ApprovalNodeType, AutomatedNodeType, EndNodeType } from "@/types/types";
 
 interface JSONDataType {
-    workflow: string, 
-    nodes: Node[], 
-    edges: Edge[], 
-    nodeFormData: Record<string, StartNodeType | TaskNodeType | ApprovalNodeType | AutomatedNodeType | EndNodeType>
-        
+    workflow: string;
+    nodes: Node[];
+    edges: Edge[];
+    nodeFormRecord: Record<
+        string,
+        StartNodeType | TaskNodeType | ApprovalNodeType | AutomatedNodeType | EndNodeType
+    >;
 }
 
 export function downloadJSON(data: JSONDataType) {
