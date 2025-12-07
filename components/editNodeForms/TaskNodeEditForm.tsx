@@ -75,6 +75,7 @@ export default function TaskNodeEditForm() {
             placeholder="Enter Title" 
             className="border border-[#999] p-2 w-full mb-3"
             value={taskDetails.title}
+            required
             onChange={changeHandler}
             />
 

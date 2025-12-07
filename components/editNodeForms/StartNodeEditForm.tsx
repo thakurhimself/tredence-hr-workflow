@@ -41,6 +41,7 @@ export default function StartNodeEditForm() {
             placeholder="Enter title" 
             className="border border-[#999] p-2 w-full"
             value={title}
+            required
             onChange={(e) => setTitle(e.target.value)}
             />
 

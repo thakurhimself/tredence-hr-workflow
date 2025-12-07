@@ -90,15 +90,15 @@ export function getExecutionOrder(nodes: Node[], edges: Edge[]) {
 export function simulationHandler(type: string, title: string) {
     switch(type) {
         case 'start':
-            return `Start: ${title} is initiazed...`
+            return `Start: ${title ? title : 'start'} is initiazed...`
         case 'task':
-            return `Task: ${title} is done`
+            return `Task: ${title ? title : 'task'} is done`
         case 'approval':
-            return `Approval: ${title} is approved`
+            return `Approval: ${title ? title : 'approval request'} is approved`
         case 'automated':
-            return `Automated Step: ${title} is done`
+            return `Automated Step: ${title ? title : 'automated step'} is done`
         case 'end':
-            return `End: workflow ended`
+            return `End: ${title ? title : 'workflow'}`
         default:
             return null
     }

@@ -21,8 +21,8 @@ import Panel from "@/components/Panel";
 import { nodeSelector } from "@/worker/nodeSelector";
 import { useWorkflowState } from "@/context/WorkflowContext";
 import { edgeTypes, nodeTypes } from "@/worker/flowConfig";
-import { Play } from "lucide-react";
 import SubmitWorkflowPanel from "./SubmitWorkflowPanel";
+import { downloadJSON } from "@/worker/exportJSON";
 
 export default function RootComponent() {
     const state = useWorkflowState();
@@ -33,8 +33,6 @@ export default function RootComponent() {
     const [actionStatus, setActionStatus] = useState<{type: 'error' | 'submit-workflow' | null, message?: string}>(
         {type: null, message: ''}
     )
-
-    // const [subWorkflow, setSubmitWorkflow] = useState<boolean>(false);
 
     const onConnect = useCallback(
         (params: Edge | Connection) => setEdges((eds) => addEdge({...params, type:'customEdge'}, eds)
@@ -124,12 +122,28 @@ export default function RootComponent() {
                         <section>
                             <p className="font-semibold text-red-900">Workflow</p>
                         </section>
-                        <section>
+                        <section className="flex items-center gap-4">
                             <button 
-                            className="cursor-pointer"
+                            className="cursor-pointer text-sm hover:font-semibold"
                             onClick={() => setActionStatus({type: 'submit-workflow'})}
                             >
-                                <Play size={20} />
+                                Simulate
+                            </button>
+
+                            <button 
+                            className="cursor-pointer text-sm hover:font-semibold"
+                            onClick={() => {
+                                const data = {
+                                    workflow: 'HR workflow',
+                                    nodes: nodes,
+                                    edges: edges,
+                                    nodeFormRecord: state.nodeRecord
+                                }
+
+                                downloadJSON(data)
+                            }}
+                            >
+                                Export
                             </button>
                         </section>
                     </section>

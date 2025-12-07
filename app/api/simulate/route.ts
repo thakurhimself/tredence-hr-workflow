@@ -1,5 +1,5 @@
 import { detectCycles, getExecutionOrder, simulationHandler } from "@/worker/workflowSimulationUtils";
-import { Edge, Node } from "@xyflow/react";
+import { Node } from "@xyflow/react";
 
 
 export async function POST(request: Request) {
@@ -18,7 +18,5 @@ export async function POST(request: Request) {
         return simulationHandler(node.type, title)
     })
 
-    console.log("executionSteps", executionSteps);
-
-    return Response.json({message: 'step 1 is done'})
+    return Response.json({data: executionSteps}, {status: 200})
 }

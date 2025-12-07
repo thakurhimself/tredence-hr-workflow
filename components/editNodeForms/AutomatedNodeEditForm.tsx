@@ -69,6 +69,7 @@ export default function AutomatedNodeEditForm() {
             className="w-full mb-3 p-2 border border-[#999] mb-3"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            required
             />
 
             {/* choose action */}

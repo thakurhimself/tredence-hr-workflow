@@ -54,6 +54,7 @@ export default function ApprovalNodeEditForm() {
             className="border border-[#999] p-2 w-full mb-3"
             value={approvalInfo.title}
             onChange={changeHandler}
+            required
             />
 
             {/* Approval Role */}
