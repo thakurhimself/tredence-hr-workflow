@@ -1,7 +1,7 @@
 # HR Workflow
 
 ## How to run?
-The project can be accessed via link: [www.google.com](https://www.google.com)
+The project can be accessed via link: [https://t-hr-wf.vercel.app/](https://t-hr-wf.vercel.app/)
 
 To run the project locally do the following:
 
